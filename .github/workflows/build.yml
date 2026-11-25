@@ -1,0 +1,42 @@
+name: Build
+
+on:
+  push:
+    branches: [netcore]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: write # create releases for v* tags
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: microsoft/setup-msbuild@v2
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      # Builds into unlockfps_nc\Resources\UnlockerStub.dll, which is embedded into the exe
+      - name: Build UnlockerStub
+        run: msbuild UnlockerStub\UnlockerStub.vcxproj /p:Configuration=Release /p:Platform=x64 /p:SolutionDir=${{ github.workspace }}\ /m /nologo
+
+      - name: Publish unlocker
+        run: dotnet publish unlockfps_nc\unlockfps_nc.csproj -c ReleaseMin -r win-x64 -f net8.0-windows --self-contained false -p:PublishSingleFile=true -p:PublishReadyToRun=false -o publish
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: unlockfps_nc
+          path: publish/unlockfps_nc.exe
+          if-no-files-found: error
+
+      - name: Create release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${{ github.ref_name }}" publish/unlockfps_nc.exe --title "${{ github.ref_name }}" --generate-notes
