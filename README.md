@@ -1,3 +1,15 @@
+> [!NOTE]
+> **genshin-fps-unlock-plus** is a fork of [34736384/genshin-fps-unlock](https://github.com/34736384/genshin-fps-unlock) that adds two mouse camera options, found under `Options -> Settings -> General`. Both can be changed while the game is running and don't affect controllers.
+>
+> - **Disable Mouse Smoothing**: the game smooths mouse camera input, so the camera lags behind the mouse (~70 ms) and keeps drifting after you stop (~250 ms). With this enabled, the camera follows the mouse 1:1.
+> - **Vertical Sensitivity (%)**: the game turns the camera about 4.4x slower vertically than horizontally (~23%). This sets vertical sensitivity as a percentage of horizontal, where 100% means the same speed on both axes.
+>
+> [![Build](https://github.com/oomfslop/genshin-fps-unlock-plus/actions/workflows/build.yml/badge.svg)](https://github.com/oomfslop/genshin-fps-unlock-plus/actions/workflows/build.yml) Download a build from [Releases](https://github.com/oomfslop/genshin-fps-unlock-plus/releases) or the latest [Actions](https://github.com/oomfslop/genshin-fps-unlock-plus/actions/workflows/build.yml) run. Builds from this fork are **not code-signed**.
+
+> [!WARNING]
+> These options do more than FPS unlocking: disabling smoothing patches 2 bytes of the game's code, and vertical sensitivity changes a camera config value in memory. They aren't known to be detected, but there's no guarantee. The note below about not getting banned applies to FPS unlocking only. Use these options at your own risk.
+>
+> Everything below is the original README.
 
 # Genshin Impact FPS Unlocker
  - This tool helps you to unlock the 60 fps limit in the game
